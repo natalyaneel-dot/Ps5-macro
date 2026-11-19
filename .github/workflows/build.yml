@@ -1,4 +1,4 @@
-name: Build PS5 Macro Pro APK
+name: Build PS5 Macro Pro Shizuku APK
 
 on:
   push:
@@ -13,16 +13,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Extract ZIP and Fix Kotlin Conflict
+      - name: Extract ZIP if uploaded directly
         run: |
-          if [ ! -f "settings.gradle" ]; then
+          if [ -f "PS5MacroPro_Shizuku.zip" ]; then
+            unzip -o "PS5MacroPro_Shizuku.zip"
+          elif [ ! -f "settings.gradle" ]; then
             ZIP_FILE=$(ls -t *.zip 2>/dev/null | head -n 1)
             if [ -n "$ZIP_FILE" ]; then
               unzip -o "$ZIP_FILE"
             fi
-          fi
-          if ! grep -q "kotlin-bom" app/build.gradle; then
-            sed -i "s/dependencies {/dependencies {\n    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.22')/" app/build.gradle
           fi
 
       - name: Set up JDK 17
@@ -42,7 +41,6 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PS5MacroPro-APK
+          name: PS5MacroPro-Shizuku-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
-          
