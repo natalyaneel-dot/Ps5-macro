@@ -1,4 +1,4 @@
-name: Build PS5 Macro Pro Shizuku APK
+name: Build PS5 Macro Pro AllInOne APK
 
 on:
   push:
@@ -15,8 +15,8 @@ jobs:
 
       - name: Extract ZIP if uploaded directly
         run: |
-          if [ -f "PS5MacroPro_Shizuku.zip" ]; then
-            unzip -o "PS5MacroPro_Shizuku.zip"
+          if [ -f "PS5MacroPro_AllInOne.zip" ]; then
+            unzip -o "PS5MacroPro_AllInOne.zip"
           elif [ ! -f "settings.gradle" ]; then
             ZIP_FILE=$(ls -t *.zip 2>/dev/null | head -n 1)
             if [ -n "$ZIP_FILE" ]; then
@@ -41,6 +41,6 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PS5MacroPro-Shizuku-APK
+          name: PS5MacroPro-AllInOne-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
